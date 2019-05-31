@@ -26,8 +26,19 @@ voo_direto(Saida,Chegada,Companhia,Dia,Horario):-
     voo(Saida,Chegada,_,Horario,(_,_),0,Companhia,L),
     achaDias(Dia,L).
 
+% existe um voo de x a y de segunda
+filtra_voo_dia_semana(Origem,Destino,DiaSemana,HorarioSaida,HorarioChegada,Companhia):-
+ voo(Origem,Destino,_,HorarioSaida,(_,HorarioChegada),_,Companhia,L),
+    achaDias(DiaSemana,L).
+
 
 clear :-
     format('~c~s~c~s', [0x1b, "[H", 0x1b, "[2J"]).
+
+
+
+
+
+
 
 
