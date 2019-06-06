@@ -18,6 +18,8 @@ voo(frankfurt,estocolmo,ltl9,10:20,(mesmo,12:25),0,lufthansa,[seg,ter,qua,quin,s
 
 voo(frankfurt,roma,ltl3,10:45,(mesmo,12:35),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
 
+% vôo(origem,destino,código,partida,(dia_chegada,horario_chegada),número_de_escalas,companhia,[dias]).
+
 achaDias(X,[X|Cauda]).
 achaDias(X,[Cabeca|Cauda]):-
     achaDias(X,Cauda).
@@ -31,14 +33,17 @@ filtra_voo_dia_semana(Origem,Destino,DiaSemana,HorarioSaida,HorarioChegada,Compa
  voo(Origem,Destino,_,HorarioSaida,(_,HorarioChegada),_,Companhia,L),
     achaDias(DiaSemana,L).
 
+roteiro1(Origem,Destino):-
+    voo(Origem,X,C1,_,(_,_),_,_,_),
+    voo(X,Destino,C2,_,(_,_),_,_,_).
+
+
+menorDuracao(Origem,Destino,Dia,HorarioSaida,HorarioChegada,Companhia):-
+    voo(Origem,Destino,_,).
+
+
+roteiro(Origem, Destino, DiaSaida, HorSaida, Duracao).
 
 clear :-
     format('~c~s~c~s', [0x1b, "[H", 0x1b, "[2J"]).
-
-
-
-
-
-
-
 
