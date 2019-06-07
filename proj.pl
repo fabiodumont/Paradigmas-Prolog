@@ -1,5 +1,3 @@
-voo(origem,destino,código,partida,(dia_chegada,horario_chegada), número_de_escalas,companhia,[dias]).
-
 voo(sao_paulo,mexico,gl0,7:30,(mesmo,17:30),0,gol,[qua,sex,sab,dom]).
 voo(sao_paulo,nova_york,g11,6:20,(mesmo,16:20),0,gol,[ter,sex,dom]).
 voo(sao_paulo,lisboa,g12,15:30,(dia_seguinte,5:20),0,gol,[seg,ter,sex,dom]).
@@ -20,17 +18,40 @@ voo(frankfurt,estocolmo,ltl9,10:20,(mesmo,12:25),0,lufthansa,[seg,ter,qua,quin,s
 
 voo(frankfurt,roma,ltl3,10:45,(mesmo,12:35),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
 
-voo_direto(Saida,Chegada):-
-    voo(Saida,Chegada,_,_,(_,_),0,_,[_]).
+% vÃ´o(origem,destino,cÃ³digo,partida,(dia_chegada,horario_chegada),nÃºmero_de_escalas,companhia,[dias]).
+
+achaDias(X,[X|Cauda]).
+achaDias(X,[Cabeca|Cauda]):-
+    achaDias(X,Cauda).
+
+criaListaVoos(C,C1,[H|T]):-
+    H = C,
+    T = C1.
+
+
+
+voo_direto(Saida,Chegada,Companhia,Dia,Horario):-
+    voo(Saida,Chegada,_,Horario,(_,_),0,Companhia,L),
+    achaDias(Dia,L).
+
+% existe um voo de x a y de segunda
+filtra_voo_dia_semana(Origem,Destino,DiaSemana,HorarioSaida,HorarioChegada,Companhia):-
+ voo(Origem,Destino,_,HorarioSaida,(_,HorarioChegada),_,Companhia,L),
+    achaDias(DiaSemana,L).
+
+roteiro1(Origem,Destino, ListaVoos):-
+    voo(Origem,X,C1,_,(_,_),_,_,_),
+    voo(X,Destino,C2,_,(_,_),_,_,_),
+    criaListaVoos(C1, C2, ListaVoos).
+
+
+menorDuracao(Origem,Destino,Dia,HorarioSaida,HorarioChegada,Companhia):-
+    voo(Origem,Destino,_, HorarioSaida,[_,HorarioChegada],_,Companhia,L ),
+    achaDias(Dia,L).
+
+
+roteiro(Origem, Destino, DiaSaida, HorSaida, Duracao).
 
 clear :-
-    format('~c~s~c~s', [0x1b, "[H", 0x1b, "[2J"]). % man codes for details
-
-
-
-
-
-
-
-
+    format('~c~s~c~s', [0x1b, "[H", 0x1b, "[2J"]).
 
