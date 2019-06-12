@@ -24,10 +24,6 @@ achaDias(X,[X|Cauda]).
 achaDias(X,[Cabeca|Cauda]):-
     achaDias(X,Cauda).
 
-criaListaVoos(C,C1,[H|T]):-
-    H = C,
-    T = C1.
-
 
 voo_direto(Saida,Chegada,Companhia,Dia,Horario):-
     voo(Saida,Chegada,_,Horario,(_,_),0,Companhia,L),
@@ -39,11 +35,9 @@ filtra_voo_dia_semana(Origem,Destino,DiaSemana,HorarioSaida,HorarioChegada,Compa
     achaDias(DiaSemana,L).
 
 roteiro1(Origem,Destino, ListaVoos):-
-    voo(Origem,Destino,C,_,(_,_),_,_,_),
-        criaListaVoos(C, C1, ListaVoos).
-roteiro1(Origem,Destino, ListaVoos):-
-    voo(Origem,X,C1,_,(_,_),_,_,_),
-    criaListaVoos(C,C1, ListaVoos),
+    voo(Origem,Destino,ListaVoos,_,(_,_),_,_,_).
+roteiro1(Origem,Destino,[C, ListaVoos]):-
+    voo(Origem,X,C,_,(_,_),_,_,_),
     roteiro1(X,Destino,ListaVoos).
 
 
@@ -57,5 +51,3 @@ roteiro(Origem, Destino, DiaSaida, HorSaida, Duracao).
 
 clear :-
     format('~c~s~c~s', [0x1b, "[H", 0x1b, "[2J"]).
-
-
