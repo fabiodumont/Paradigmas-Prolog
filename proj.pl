@@ -1,27 +1,61 @@
-vôo(origem,destino,código,partida,(dia_chegada,horario_chegada), número_de_escalas,companhia,[dias]).
+voo(sao_paulo,mexico,gl0,7:30,(mesmo,17:30),0,gol,[qua,sex,sab,dom]).
+voo(sao_paulo,nova_york,g11,6:20,(mesmo,16:20),0,gol,[ter,sex,dom]).
+voo(sao_paulo,lisboa,g12,15:30,(dia_seguinte,5:20),0,gol,[seg,ter,sex,dom]).
+voo(sao_paulo,madrid,gl3,8:25,(mesmo,20:25),0,gol,[qua,dom]).
+voo(sao_paulo,londres,gl4,8:25,(dia_seguinte,8:25),1,gol,[seg,qui]).
+voo(sao_paulo,paris,gl5,18:55,(dia_seguinte,7:35),0,gol,[ter,sex]).
+voo(mexico,nova_york,ax0,10:00,(mesmo,15:00),0,aeromexico,[seg,qua,sex,dom]).
+voo(mexico,madrid,axl5,4:00,(mesmo,16:00),0,aeromexico,[seg,qua,sex,dom]).
+voo(nova_york,londres,g23,22:30,(dia_seguinte,6:30),0,gol,[seg,qua,sex,dom]).
+voo(londres,lisboa,ltl0,6:00,(mesmo,8:35),0,lufthansa,[seg,ter,qua,qui,sex,sab,dom]).
+voo(londres,paris,ltl4,7:20,(mesmo,9:35),0,lufthansa,[seg,ter,qua,qui,sex,sab,dom]).
+voo(londres,estocolmo,ltl8,7:05,(mesmo,10:35),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
+voo(madrid,paris,ltl2,6:00,(mesmo,8:05),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
+voo(madrid,roma,ltl5,7:05,(mesmo,9:30),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
+voo(madrid,frankfurt,lt46,7:35,(mesmo,9:35),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
 
-vôo(sao_paulo,mexico,gl0,7:30,(mesmo,17:30),0,gol,[qua,sex,sab,dom]).
-vôo(sao_paulo,nova_york,g11,6:20,(mesmo,16:20),0,gol,[ter,sex,dom]).
-vôo(sao_paulo,lisboa,g12,15:30,(dia_seguinte,5:20),0,gol,[seg,ter,sex,dom]).
-vôo(sao_paulo,madrid,gl3,8:25,(mesmo,20:25),0,gol,[qua,dom]).
-vôo(sao_paulo,londres,gl4,8:25,(dia_seguinte,8:25),1,gol,[seg,qui]).
-vôo(sao_paulo,paris,gl5,18:55,(dia_seguinte,7:35),0,gol,[ter,sex]).
-vôo(mexico,nova_york,il0,10:00,(mesmo,15:00),0,interjet,[seg,qua,sex,dom]).
-vôo(mexico,madrid,axl5,4:00,(mesmo,16:00),0,aeromexico,[seg,qua,sex,dom]).
-vôo(nova_york,londres,aa23,22:30,(dia_seguinte,6:30),0,american_airlines,[seg,qua,sex,dom]).
-vôo(londres,lisboa,bal0,6:00,(mesmo,8:35),0,british_airways,[seg,ter,qua,qui,sex,sab,dom]).
-vôo(londres,paris,bal4,7:20,(mesmo,9:35),0,british_airways,[seg,ter,qua,qui,sex,sab,dom]).
-vôo(londres,estocolmo,bal8,7:05,(mesmo,10:35),0,british_airways,[seg,ter,qua,quin,sex,sab,dom]).
-vôo(madrid,paris,afl0,6:00,(mesmo,8:05),0,air_france,[seg,ter,qua,quin,sex,sab,dom]).
-vôo(madrid,roma,ael0,7:05,(mesmo,9:30),0,air_europa,[seg,ter,qua,quin,sex,sab,dom]).
-vôo(madrid,frankfurt,ab46,7:35,(mesmo,9:35),0,air_berlin,[seg,ter,qua,quin,sex,sab,dom]).
+voo(frankfurt,estocolmo,ltl9,10:20,(mesmo,12:25),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
 
-vôo(frankfurt,estocolmo,ltl0,10:20,(mesmo,12:25),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
+voo(frankfurt,roma,ltl3,10:45,(mesmo,12:35),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
 
-vôo(frankfurt,roma,ltl0,10:45,(mesmo,12:35),0,lufthansa,[seg,ter,qua,quin,sex,sab,dom]).
+% vÃ´o(origem,destino,cÃ³digo,partida,(dia_chegada,horario_chegada),nÃºmero_de_escalas,companhia,[dias]).
+
+achaDias(X,[X|Cauda]).
+achaDias(X,[Cabeca|Cauda]):-
+    achaDias(X,Cauda).
+
+criaListaVoos(C,C1,[H|T]):-
+    H = C,
+    T = C1.
 
 
+voo_direto(Saida,Chegada,Companhia,Dia,Horario):-
+    voo(Saida,Chegada,_,Horario,(_,_),0,Companhia,L),
+    achaDias(Dia,L).
+
+% existe um voo de x a y de segunda
+filtra_voo_dia_semana(Origem,Destino,DiaSemana,HorarioSaida,HorarioChegada,Companhia):-
+ voo(Origem,Destino,_,HorarioSaida,(_,HorarioChegada),_,Companhia,L),
+    achaDias(DiaSemana,L).
+
+roteiro1(Origem,Destino, ListaVoos):-
+    voo(Origem,Destino,C,_,(_,_),_,_,_),
+        criaListaVoos(C, C1, ListaVoos).
+roteiro1(Origem,Destino, ListaVoos):-
+    voo(Origem,X,C1,_,(_,_),_,_,_),
+    criaListaVoos(C,C1, ListaVoos),
+    roteiro1(X,Destino,ListaVoos).
 
 
+
+menorDuracao(Origem,Destino,Dia,HorarioSaida,HorarioChegada,Companhia):-
+    voo(Origem,Destino,_, HorarioSaida,[_,HorarioChegada],_,Companhia,L ),
+    achaDias(Dia,L).
+
+
+roteiro(Origem, Destino, DiaSaida, HorSaida, Duracao).
+
+clear :-
+    format('~c~s~c~s', [0x1b, "[H", 0x1b, "[2J"]).
 
 
