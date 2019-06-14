@@ -29,7 +29,7 @@ achaDias(X,[Cabeca|Cauda]):-
 
 
 voo_direto(Origem,Destino,Companhia,Dia,Horario):-
-    voo(Saida,Chegada,_,Horario,(_,_),0,Companhia,L),
+    voo(Origem,Destino,_,Horario,(_,_),0,Companhia,L),
     achaDias(Dia,L).
 
 % existe um voo de x a y de segunda
