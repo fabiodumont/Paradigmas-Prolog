@@ -28,7 +28,7 @@ achaDias(X,[Cabeca|Cauda]):-
     achaDias(X,Cauda).
 
 
-voo_direto(Saida,Chegada,Companhia,Dia,Horario):-
+voo_direto(Origem,Destino,Companhia,Dia,Horario):-
     voo(Saida,Chegada,_,Horario,(_,_),0,Companhia,L),
     achaDias(Dia,L).
 
