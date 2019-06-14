@@ -1,3 +1,7 @@
+% Cesar Pinardi  17270182
+% Fabio Dumont   17049461
+%https://github.com/fabiodumont/Paradigmas-Prolog
+
 voo(sao_paulo,mexico,gl0,7:30,(mesmo,17:30),0,gol,[qua,sex,sab,dom]).
 voo(sao_paulo,nova_york,g11,6:20,(mesmo,16:20),0,gol,[ter,sex,dom]).
 voo(sao_paulo,lisboa,g12,15:30,(dia_seguinte,5:20),0,gol,[seg,ter,sex,dom]).
